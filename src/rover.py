@@ -6,8 +6,13 @@ def execute(command: str) -> str:
     direction = 0
     for char in list(command):
         if char == "M":
-            x += 1
+            if direction % 2 == 0:
+                y += 1 - (direction % len(compass_directions))
+            else:
+                x += 2 - (direction % len(compass_directions))
         elif char == "L":
             direction = (direction - 1) % len(compass_directions)
-            
-    return f"0:{x}:{compass_directions[direction]}"
+        elif char == "R": 
+            direction = (direction + 1) % len(compass_directions)
+
+    return f"{x}:{y}:{compass_directions[direction]}"
