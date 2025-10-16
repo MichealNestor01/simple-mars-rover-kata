@@ -41,7 +41,7 @@ def execute(
         direction_map (dict[float, str], optional): a float z to a direction, z is derived from rotation vector (x,y) as z = x + 2y
 
     Returns:
-        str: Final coordinates and direction as a string in the format "x:y:D",
+        str: final coordinates and direction as a string in the format "x:y:D",
     """
     loc,rot = arr((0, 0)),arr((0, 1)) # starts at the origin, facing in positive y
     for char in command:
