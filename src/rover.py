@@ -23,7 +23,7 @@ def execute(
         grid_height: int = DEFAULT_GRID_HEIGHT,
         mov_map: dict[str, float] = DEFAULT_MOVEMENT_MAP,
         rot_map: dict[str, float] = DEFAULT_ROTATION_MAP,
-        dir_map: dict[arr, str] = DEFAULT_DIRECTION_MAP,
+        dir_map: dict[float, str] = DEFAULT_DIRECTION_MAP,
     ) -> str:
     """ Simple mars rover solution
 
@@ -33,12 +33,12 @@ def execute(
     This is a 5 line solution, (with some lines spread over multiple lines for readability)
 
     Args:
-        command (str): A string of movement/rotation commands, from the rotation and movement maps
-        grid_width (int, optional): Width of the grid. Defaults to DEFAULT_GRID_WIDTH.
-        grid_height (int, optional): Height of the grid. Defaults to DEFAULT_GRID_HEIGHT.
-        mov_map (dict[str, float], optional): Maps commands to movement steps.
-        rot_map (dict[str, float], optional): Maps commands to rotation angles (in radians).
-        direction_map (dict[np.array, str], optional): Maps direction vectors to cardinal directions.
+        command (str): string of movement/rotation commands
+        grid_width (int, optional): grid height
+        grid_height (int, optional): grid width
+        mov_map (dict[str, float], optional): maps movement commands to a distance to travel in board units
+        rot_map (dict[str, float], optional): maps rotation commands to a rotation angle (in radians)
+        direction_map (dict[float, str], optional): a float z to a direction, z is derived from rotation vector (x,y) as z = x + 2y
 
     Returns:
         str: Final coordinates and direction as a string in the format "x:y:D",
