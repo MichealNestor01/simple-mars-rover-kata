@@ -12,4 +12,13 @@ class TestExecute(unittest.TestCase):
         self.assertEqual(execute("MMM"), "0:3:N")
     
     def test_turn_left(self):
-        self.assertEqual(execute("M"), "0:0:W")
+        self.assertEqual(execute("L"), "0:0:W")
+
+    def test_turn_left_twice(self):
+        self.assertEqual(execute("LL"), "0:0:S")
+
+    def test_turn_left_thrice(self):
+        self.assertEqual(execute("LLL"), "0:0:E")
+
+    def test_turn_left_frice(self):
+        self.assertEqual(execute("LLLL"), "0:0:N")
