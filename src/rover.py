@@ -43,14 +43,8 @@ def execute(
     Returns:
         str: Final coordinates and direction as a string in the format "x:y:D",
     """
-    loc, rot = arr((0, 0)), arr((0, 1)) # starts at the origin, facing in positive y
+    loc,rot = arr((0, 0)),arr((0, 1)) # starts at the origin, facing in positive y
     for char in command:
-        rot = np.round(arr([
-            [cos(rot_map.get(char, 0)), -sin(rot_map.get(char, 0))],
-            [sin(rot_map.get(char, 0)), cos(rot_map.get(char, 0))]
-            ]) @ rot, 5)
-        loc = np.round(arr((
-            (loc + (mov_map.get(char, 0) * rot))[0] % grid_width, 
-            (loc + (mov_map.get(char, 0) * rot))[1] % grid_height,
-        )), 5)
+        rot = np.round(arr([[cos(rot_map.get(char,0)),-sin(rot_map.get(char, 0))],[sin(rot_map.get(char, 0)),cos(rot_map.get(char, 0))]])@rot,5)
+        loc = np.round(arr(((loc+(mov_map.get(char,0)*rot))[0]%grid_width,(loc+(mov_map.get(char,0)*rot))[1]%grid_height)),5)
     return f"{loc[0]}:{loc[1]}:{dir_map.get(rot[0] + 2 * rot[1], "N")}"
