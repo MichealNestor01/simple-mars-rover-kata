@@ -43,3 +43,27 @@ class TestExecute(unittest.TestCase):
     
     def test_turn_right_move_forward(self):
         self.assertEqual(execute("RM"), "1:0:E")
+
+    def test_RMLMRML(self):
+        self.assertEqual(execute("RMLMRML"), "2:1:N")
+
+    def test_cirle(self):
+        self.assertEqual(execute("MRMRMRMR"), "0:0:N")
+    
+    def test_wrap_left(self):
+        self.assertEqual(execute("LM", 10, 10), "9:0:W")
+    
+    def test_wrap_up(self):
+        grid_width = 10 
+        grid_height = 10
+        command = "M" * grid_height
+        self.assertEqual(execute(command, grid_width, grid_height), "0:0:N")
+    
+    def test_wrap_down(self):
+        self.assertEqual(execute("RRM", 10, 10), "0:9:S")
+    
+    def test_wrap_right(self):
+        grid_width = 10 
+        grid_height = 10
+        command =  "R" + ("M" * grid_width)
+        self.assertEqual(execute(command, grid_width, grid_height), "0:0:E")
