@@ -6,6 +6,7 @@ def execute(
         grid_height: int = 10,
     ) -> str:
     '''simple mars rover solution'''
+    _direction_map = {"L": -1, "R": 1}
     x = 0
     y = 0 
     direction = 0
@@ -14,10 +15,8 @@ def execute(
             if direction % 2 == 0:
                 y = (y + (1 - (direction % len(compass_directions)))) % grid_height
             else:
-                x = (x + (2 - (direction % len(compass_directions)))) % grid_width          
-        elif char == "L":
-            direction = (direction - 1) % len(compass_directions)
-        elif char == "R": 
-            direction = (direction + 1) % len(compass_directions)
+                x = (x + (2 - (direction % len(compass_directions)))) % grid_width  
+        direction = (direction + _direction_map.get(char, 0)) % len(compass_directions)
+
 
     return f"{x}:{y}:{compass_directions[direction]}"
