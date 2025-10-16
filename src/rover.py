@@ -1,23 +1,56 @@
-compass_directions = ["N", "E", "S", "W"]
+import numpy as np
+from numpy import sin, cos, pi, array as arr
+
+DEFAULT_GRID_WIDTH = 10
+DEFAULT_GRID_HEIGHT = 10
+DEFAULT_DIRECTION_MAP = {
+    2:  "N",
+    1:  "E",
+    -2: "S",
+    -1: "W",
+}
+DEFAULT_MOVEMENT_MAP = {
+    "M": 1
+}
+DEFAULT_ROTATION_MAP = {
+    "L": pi/2, 
+    "R": -pi/2
+}
 
 def execute(
         command: str,
-        grid_width: int = 10,
-        grid_height: int = 10,
+        grid_width: int = DEFAULT_GRID_WIDTH,
+        grid_height: int = DEFAULT_GRID_HEIGHT,
+        mov_map: dict[str, float] = DEFAULT_MOVEMENT_MAP,
+        rot_map: dict[str, float] = DEFAULT_ROTATION_MAP,
+        dir_map: dict[arr, str] = DEFAULT_DIRECTION_MAP,
     ) -> str:
-    '''simple mars rover solution'''
-    _direction_map = {"L": -1, "R": 1}
-    _compass_directions = ["N", "E", "S", "W"]
-    x = 0
-    y = 0 
-    direction = 0
-    for char in list(command):
-        if char == "M":
-            if direction % 2 == 0:
-                y = (y + (1 - (direction % len(_compass_directions)))) % grid_height
-            else:
-                x = (x + (2 - (direction % len(_compass_directions)))) % grid_width  
-        direction = (direction + _direction_map.get(char, 0)) % len(_compass_directions)
+    """ Simple mars rover solution
 
+    This solution is optimised for fewest lines of code, ty Rowan Lee for the challenge :)
+    Obviously there is a lot of wasted compute here, but that was the challenge :)
+    This was created using red-green-refactor tdd, look at the commits. 
+    This is a 5 line solution, (with some lines spread over multiple lines for readability)
 
-    return f"{x}:{y}:{_compass_directions[direction]}"
+    Args:
+        command (str): A string of movement/rotation commands, from the rotation and movement maps
+        grid_width (int, optional): Width of the grid. Defaults to DEFAULT_GRID_WIDTH.
+        grid_height (int, optional): Height of the grid. Defaults to DEFAULT_GRID_HEIGHT.
+        mov_map (dict[str, float], optional): Maps commands to movement steps.
+        rot_map (dict[str, float], optional): Maps commands to rotation angles (in radians).
+        direction_map (dict[np.array, str], optional): Maps direction vectors to cardinal directions.
+
+    Returns:
+        str: Final coordinates and direction as a string in the format "x:y:D",
+    """
+    loc, rot = arr((0, 0)), arr((0, 1)) # starts at the origin, facing in positive y
+    for char in command:
+        rot = np.round(arr([
+            [cos(rot_map.get(char, 0)), -sin(rot_map.get(char, 0))],
+            [sin(rot_map.get(char, 0)), cos(rot_map.get(char, 0))]
+            ]) @ rot, 5)
+        loc = np.round(arr((
+            (loc + (mov_map.get(char, 0) * rot))[0] % grid_width, 
+            (loc + (mov_map.get(char, 0) * rot))[1] % grid_height,
+        )), 5)
+    return f"{loc[0]}:{loc[1]}:{dir_map.get(rot[0] + 2 * rot[1], "N")}"
