@@ -12,11 +12,9 @@ def execute(
     for char in list(command):
         if char == "M":
             if direction % 2 == 0:
-                y += (1 - (direction % len(compass_directions)))
-                y %= grid_height
+                y = (y + (1 - (direction % len(compass_directions)))) % grid_height
             else:
-                x += (2 - (direction % len(compass_directions)))  
-                x %= grid_width          
+                x = (x + (2 - (direction % len(compass_directions)))) % grid_width          
         elif char == "L":
             direction = (direction - 1) % len(compass_directions)
         elif char == "R": 
