@@ -7,16 +7,17 @@ def execute(
     ) -> str:
     '''simple mars rover solution'''
     _direction_map = {"L": -1, "R": 1}
+    _compass_directions = ["N", "E", "S", "W"]
     x = 0
     y = 0 
     direction = 0
     for char in list(command):
         if char == "M":
             if direction % 2 == 0:
-                y = (y + (1 - (direction % len(compass_directions)))) % grid_height
+                y = (y + (1 - (direction % len(_compass_directions)))) % grid_height
             else:
-                x = (x + (2 - (direction % len(compass_directions)))) % grid_width  
-        direction = (direction + _direction_map.get(char, 0)) % len(compass_directions)
+                x = (x + (2 - (direction % len(_compass_directions)))) % grid_width  
+        direction = (direction + _direction_map.get(char, 0)) % len(_compass_directions)
 
 
-    return f"{x}:{y}:{compass_directions[direction]}"
+    return f"{x}:{y}:{_compass_directions[direction]}"
